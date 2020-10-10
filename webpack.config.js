@@ -1,12 +1,18 @@
 module.exports = {
-    entry: "./scripts/Main.jsx",
+    entry: "./scripts/Main.js",
     output: {
         path: __dirname,
         filename: "./static/script.js"
     },
     module: {
         rules: [
-            { test: /\.css$/, loader: "style!css" },
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules)/,

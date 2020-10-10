@@ -7,7 +7,6 @@ import flask_sqlalchemy
 
 app = flask.Flask(__name__)
 
-
 dotenv_path = join(dirname(__file__), 'sql.env')
 load_dotenv(dotenv_path)
 
@@ -27,23 +26,7 @@ import models
 
 @app.route('/')
 def index():
-    models.db.create_all()
-    addresses = [
-        models.Usps("1600 Pennsylvania"),
-        models.Usps("121 W 21st Ave"),
-        models.Usps("NJIT GITC")]
-    for address in addresses:
-        db.session.add(address)
-    db.session.commit()
-    
-    retstr = "<html>"
-    dbAddresses = models.Usps.query.all()
-    retstr += "<ol>"
-    for dbAddress in dbAddresses:
-        retstr += "<li>" + dbAddress.address + "</li>"
-    retstr += "</ol>"
-    retstr += "</html>"
-    return retstr
+    return flask.render_template("index.html")
     
     
 if __name__ == '__main__':
