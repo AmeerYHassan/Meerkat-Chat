@@ -2,10 +2,14 @@ import React from 'react'
 
 import "../static/App.css"
 
+import { ChatWindow } from './ChatWindow.js';
+import { SidePanel } from './SidePanel.js';
+
 export function Content() {
     return (
-        <div>
-            <p>Hello, World</p>
+        <div className="container">
+            <SidePanel />
+            <ChatWindow />
         </div>
     )
 }

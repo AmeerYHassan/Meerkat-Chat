@@ -1,6 +1,8 @@
 import React from 'react'
 
-export default function UserCount() {
+import "../static/App.css"
+
+export function UserCount() {
     return (
         <div>
             

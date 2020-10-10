@@ -1,9 +1,15 @@
 import React from 'react'
 
-export default function ChatWindow() {
+import "../static/App.css"
+
+import { MessageList } from './MessageList.js';
+import { MessageInput } from './MessageInput.js';
+
+export function ChatWindow() {
     return (
-        <div>
-            
+        <div className="chatWindow">
+            <MessageList />
+            <MessageInput />
         </div>
     )
 }
