@@ -7,7 +7,7 @@ import { Message } from './Message.js';
 export function MessageList() {
     return (
         <div>
-            <Message />
+            <Message username="Ameer" message="This is my message" />
         </div>
     )
 }

@@ -8,7 +8,10 @@ import { MessageInput } from './MessageInput.js';
 export function ChatWindow() {
     return (
         <div className="chatWindow">
-            <MessageList />
+            <div className="messageList">
+                <MessageList />
+                <hr />
+            </div>
             <MessageInput />
         </div>
     )
