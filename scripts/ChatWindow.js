@@ -10,9 +10,10 @@ export function ChatWindow() {
         <div className="chatWindow">
             <div className="messageList">
                 <MessageList />
-                <hr />
             </div>
-            <MessageInput />
+            <div className="userInput">
+                <MessageInput />
+            </div>
         </div>
     )
 }

@@ -1,15 +1,19 @@
 import React from 'react'
 import { Socket } from './Socket';
 
+import { Message } from './Message.js';
+import { MessageList } from './MessageList.js';
+
 import "../static/App.css"
 
 function handleSubmit(event) {
     let currMessage = document.getElementById("messageBox");
+    let currMessageValue = currMessage.value;
     Socket.emit('new message', {
-       'message': currMessage.value,
+        'message': currMessageValue,
     });
     
-    currMessage.value = ''
+    currMessage.value = '';
     event.preventDefault();
 }
 
