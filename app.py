@@ -8,6 +8,12 @@ import flask
 import flask_sqlalchemy
 import flask_socketio
 import requests
+import random
+
+animals = ["Cat", "Dog", "Elephant", "Serval", "Ocelot", "Giraffe", "Bear", "Panda", "Bird", "Lizard", "Skink", "Fish"]
+adjectives = ["Enjoyable", "Astonishing", "Super", "Amusing", "Large", "Fancy", "Kind", "Delightful", "Eager", "Bright", "Amiable", "Generous"]
+takenNames = set()
+usernameDict = {}
 
 app = flask.Flask(__name__)
 
@@ -65,10 +71,12 @@ def getBotResponse(message):
 
 @socketio.on('connect')
 def on_connect():
+    socketio.emit('user count change', { "changeBy": +1 })
     print("A user has connected")
 
 @socketio.on('disconnect')
 def on_disconnect():
+    socketio.emit('user count change', { "changeBy": -1 })
     print("A user has disconnected")
     
 @socketio.on('new message')
@@ -78,11 +86,22 @@ def new_message(data):
     if (messageContents[0:2] == "!!"):
         retObj["message"] = getBotResponse(messageContents)
         retObj["isBot"] = True
+        retObj["username"] = "Meerkat Bot"
     else:
         retObj["message"] = messageContents
         retObj["isBot"] = False
-        
+        if (flask.request.sid in usernameDict):
+            retObj["username"] = usernameDict[flask.request.sid]
+        else:
+            newUser = random.choice(adjectives) + " " + random.choice(animals) + " " + str(random.randint(1, 100))
+            while newUser in takenNames:
+                newUser = random.choice(adjectives) + " " + random.choice(animals) + " " + str(random.randint(1, 100))
+            takenNames.add(newUser)
+            usernameDict[flask.request.sid] = newUser
+            retObj["username"] = usernameDict[flask.request.sid]
+                
     socketio.emit('message recieved', retObj)
+    print(flask.request.sid)
     print(retObj)
     print(messageContents)
     print(data)

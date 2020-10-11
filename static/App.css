@@ -18,7 +18,7 @@
     margin: 5px;
 }
 
-.message{
+.humanMessage{
     background-color: yellow;
 }
 
@@ -49,4 +49,8 @@
     height: 30px;
     right: 40;
     position: absolute;
+}
+
+.botMessage {
+    border: 1px dashed pink;
 }

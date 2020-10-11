@@ -1,14 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import "../static/App.css"
+import { Socket } from './Socket';
 
 export function SidePanel() {
+    const [userCount, setUserCount] = useState(0);
+
+    function getNewCount() {
+        React.useEffect(() => {
+            Socket.on('user count change', (data) => {
+                setUserCount(userCount + data["changeBy"])
+            })
+            
+            return () => {
+              Socket.off("user count change");
+            };
+        });
+    }
+    
+    getNewCount()
+    
     return (
         <div className="sidePanel">
-            <p> User Count: 3 </p>
-            <p> Tom </p>
-            <p> Barry </p>
-            <p> Helen </p>
+            <p> User Count: {userCount} </p>
         </div>
     )
 }
