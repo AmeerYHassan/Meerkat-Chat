@@ -3,7 +3,6 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 from datetime import datetime
 import models 
-import requests
 import os
 import flask
 import flask_sqlalchemy
@@ -28,7 +27,7 @@ dotenv_path = join(dirname(__file__), 'sql.env')
 load_dotenv(dotenv_path)
 
 # Set up authentication for psql database
-database_uri = os.getenv('DATABASE_URL')
+database_uri = os.environ('DATABASE_URL')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 
