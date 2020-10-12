@@ -27,7 +27,7 @@ dotenv_path = join(dirname(__file__), 'sql.env')
 load_dotenv(dotenv_path)
 
 # Set up authentication for psql database
-database_uri = os.environ('DATABASE_URL')
+database_uri = os.environ.get('DATABASE_URL')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 
