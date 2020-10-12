@@ -8,6 +8,9 @@ body {
 p {
     margin: 5px;
 }
+h1 {
+    text-align: center;
+}
 
 .container {
     display: flex;

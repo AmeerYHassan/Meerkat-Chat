@@ -17,8 +17,20 @@ export function MessageList() {
                 setMessageList([...messageList, testMessage]);
             })
             
+            // Socket.on('new user', (data) => {
+            //     console.log(data)
+            //     console.log("Displaying message history")
+            //     let messageList = data["allMessages"]
+                
+            //     messageList.forEach(function (currMessage, index) {
+            //         testMessage = <Message key={messageList.length + 1} username={currMessage['username']} message={currMessage['message']} botStatus={currMessage['isBot'] ? "botMessage" : "humanMessage"} />;
+            //         setMessageList([...messageList, testMessage]);
+            //     });
+            // })
+            
             return () => {
               Socket.off("message recieved");
+              Socket.off("new user");
             };
         });
     }

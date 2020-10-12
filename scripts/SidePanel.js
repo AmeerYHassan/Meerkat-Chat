@@ -22,6 +22,8 @@ export function SidePanel() {
     
     return (
         <div className="sidePanel">
+            <h1> Meerkat Chat! </h1>
+            <hr />
             <p> User Count: {userCount} </p>
         </div>
     )
