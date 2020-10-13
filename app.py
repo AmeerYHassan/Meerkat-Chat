@@ -96,8 +96,7 @@ def emit_all_messages():
         messageObjects.append(currObject)
     
     # Send each message using socketio to the client.
-    for message in messageObjects:
-        socketio.emit('message recieved', message)
+    socketio.emit('message dump', messageObjects)
 
 
 # On connect, tell the client to increase the user count by one and emit all the messages.

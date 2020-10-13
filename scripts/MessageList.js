@@ -18,9 +18,19 @@ export function MessageList() {
                 setMessageList(messageList => [...messageList, testMessage])
             })
             
+            Socket.on('message dump', (data) => {
+                if (messageList.length == 0){
+                    for (let i=0; i<data.length; i++){
+                        let currMessage = <Message key={i} username={data[i].username} message={data[i].message} botStatus={data[i].isBot ? "botMessage" : "humanMessage"} />;
+                        setMessageList(messageList => [...messageList, currMessage])
+                    }
+                }
+            })
+            
             return () => {
               Socket.off("message recieved");
               Socket.off("new user");
+              Socket.off('message dump');
             };
         });
     }
