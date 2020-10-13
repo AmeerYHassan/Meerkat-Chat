@@ -14,7 +14,8 @@ export function MessageList() {
             Socket.on('message recieved', (data) => {
                 console.log("Received Message!: " + data['message']);
                 testMessage = <Message key={messageList.length + 1} username={data['username']} message={data['message']} botStatus={data['isBot'] ? "botMessage" : "humanMessage"} />;
-                setMessageList([...messageList, testMessage]);
+                //setMessageList([...messageList, testMessage]);
+                setMessageList(messageList => [...messageList, testMessage])
             })
             
             return () => {
