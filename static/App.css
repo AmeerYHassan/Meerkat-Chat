@@ -44,9 +44,9 @@ h1 {
 }
 
 .messageList {
-    height: 80%;
+    height: 88%;
     position: fixed;
-    width: 80%;
+    width: 85%;
     overflow-y: scroll;
     border: 1px solid black;
     display: flex;
@@ -58,11 +58,12 @@ h1 {
 }
 
 .messageInput {
-    border: none;
-    width: 80%;
+    border: 1px solid black;
+    width: 79%;
     height: 30px;
     bottom: 30;
     position: absolute;
+    border-radius: 10px;
 }
 
 .submitButton {
@@ -70,6 +71,10 @@ h1 {
     height: 30px;
     right: 40;
     position: absolute;
+    font-weight: bold;
+    border: 1px solid black;
+    background-color: rgb(123, 147, 156);
+    border-radius: 10px;
 }
 
 .botMessage {
