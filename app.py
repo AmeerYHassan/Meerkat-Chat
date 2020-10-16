@@ -147,6 +147,21 @@ def new_message(data):
     socketio.emit('message recieved', retObj)
     print(retObj)
 
+@socketio.on('user login')
+def user_login(data):
+    retObj = {}
+    retObj["image"] = data["image"]
+    retObj["username"] = "Meerkat Bot"
+    retObj["message"] = data["name"] + " has joined the chat!"
+    retObj["isBot"] = True
+    
+    socketio.emit('message recieved', retObj)
+    socketio.emit('unlock chat', {})
+    
+    retObj["username"] = data["name"]
+    retObj["isBot"] = False
+    usernameDict[flask.request.sid] = retObj
+
 # Default root directory of the website.
 @app.route('/')
 def index():

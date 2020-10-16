@@ -22,7 +22,13 @@ export function SidePanel() {
     getNewCount()
     
     const responseGoogle = (response) => {
-      console.log(response);
+        console.log(response);
+        console.log(response.profileObj.googleId)
+        Socket.emit('user login', {
+            'id': response.profileObj.googleId,
+            'name': response.profileObj.name,
+            'image': response.profileObj.imageUrl
+        });
     }
     
     return (

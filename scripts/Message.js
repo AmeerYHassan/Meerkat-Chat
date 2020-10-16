@@ -5,7 +5,7 @@ import "../static/App.css"
 export function Message(props) {
     return (
         <div className={props.botStatus}>
-            <p><span className="message_user"> {props.username}</span>: {props.message}</p>
+            <img src={props.image} className="profilePicture"></img><p><span className="message_user"> {props.username}</span>: {props.message}</p>
         </div>
     )
 }

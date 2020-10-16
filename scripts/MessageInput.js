@@ -1,10 +1,12 @@
-import React from 'react'
-import { Socket } from './Socket';
+import React, { useState, useEffect } from 'react'
 
+import { Socket } from './Socket';
 import { Message } from './Message.js';
 import { MessageList } from './MessageList.js';
 
 import "../static/App.css"
+
+let chatLock = "disabled"
 
 function handleSubmit(event) {
     let currMessage = document.getElementById("messageBox");
@@ -18,10 +20,25 @@ function handleSubmit(event) {
 }
 
 export function MessageInput() {
+    const [chatLock, setChatLock] = useState(true);
+    
+    function unlockChat() {
+        React.useEffect(() => {
+            Socket.on('unlock chat', (data) => {
+                setChatLock(false);
+            })
+
+            return () => {
+              Socket.off("user login");
+            };
+        });
+    }
+    
+    unlockChat();
     return (
         <div>
-            <input disabled="disabled" onSubmit={handleSubmit} id="messageBox" placeholder="Enter your message here..." className="messageInput" type="text" />
-            <button className="submitButton" onClick={handleSubmit}>Send Message</button>
+            <input disabled={chatLock} onSubmit={handleSubmit} id="messageBox" placeholder="Enter your message here..." className="messageInput" type="text" />
+            <button disabled={chatLock} className="submitButton" onClick={handleSubmit}>Send Message</button>
         </div>
     )
 }
