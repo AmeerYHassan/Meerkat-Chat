@@ -20,7 +20,7 @@ function handleSubmit(event) {
 export function MessageInput() {
     return (
         <div>
-            <input onSubmit={handleSubmit} id="messageBox" placeholder="Enter your message here..." className="messageInput" type="text" />
+            <input disabled="disabled" onSubmit={handleSubmit} id="messageBox" placeholder="Enter your message here..." className="messageInput" type="text" />
             <button className="submitButton" onClick={handleSubmit}>Send Message</button>
         </div>
     )
