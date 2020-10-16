@@ -81,6 +81,11 @@ def emit_all_messages():
     all_messages = [db_message.message for db_message in db.session.query(models.Messages).all()]
     all_users = [db_username.username for db_username in db.session.query(models.Messages).all()]
     all_bot_status = [db_isBot.isBot for db_isBot in db.session.query(models.Messages).all()]
+    all_profile_pictures = [db_profilePicture.profilePicture for db_profilePicture in db.session.query(models.Messages).all()]
+    all_hasImage = [db_hasImage.hasImage for db_hasImage in db.session.query(models.Messages).all()]
+    all_hasLink = [db_hasLink.hasLink for db_hasLink in db.session.query(models.Messages).all()]
+    all_imageLink = [db_imageLink.imageLink for db_imageLink in db.session.query(models.Messages).all()]
+    all_hyperlink = [db_hyperlink.hyperlink for db_hyperlink in db.session.query(models.Messages).all()]
     
     messageObjects = []
     # Make a list of message objects, iterating through every list using an index.
@@ -89,11 +94,15 @@ def emit_all_messages():
         currObject["message"] = all_messages[i]
         currObject["username"] = all_users[i]
         currObject["isBot"] = all_bot_status[i]
+        currObject["profilePicture"] = all_profile_pictures[i]
+        currObject["hasImage"] = all_hasImage[i]
+        currObject["hasLink"] = all_hasLink[i]
+        currObject["imageLink"] = all_imageLink[i]
+        currObject["hyperlink"] = all_hyperlink[i]
         messageObjects.append(currObject)
     
     # Send each message using socketio to the client.
     socketio.emit('message dump', messageObjects)
-
 
 # On connect, tell the client to increase the user count by one and emit all the messages.
 @socketio.on('connect')
@@ -125,7 +134,7 @@ def new_message(data):
         splitMessage = messageContents.split()
         hasImage = False
         hasLink = False
-        linkText = None
+        hyperlink = None
         imageLink = None
         
         for word in splitMessage:
@@ -135,7 +144,7 @@ def new_message(data):
                     imageLink = word
                 else:
                     hasLink = True
-                    linkText = word
+                    hyperlink = word
 
         retObj["message"] = messageContents
         retObj["isBot"] = False
@@ -143,11 +152,20 @@ def new_message(data):
         retObj["image"] = usernameDict[flask.request.sid]["image"]
         retObj["hasImage"] = hasImage
         retObj["hasLink"] = hasLink
-        retObj["linkText"] = linkText
+        retObj["hyperlink"] = hyperlink
         retObj["imageLink"] = imageLink
     
     # Write to the database the contents of the message, the username, and whether or not it's a bot message.
-    db.session.add(models.Messages(retObj['message'], retObj['username'], retObj['isBot']));
+    db.session.add(models.Messages(\
+        retObj['message'], \
+        retObj['username'], \
+        retObj['isBot'], \
+        retObj['image'], \
+        retObj['hasImage'], \
+        retObj['hasLink'], \
+        retObj["imageLink"], \
+        retObj["hyperlink"]));
+
     db.session.commit()
     
     # Emit the message to socket.io
