@@ -10,10 +10,6 @@ import flask_socketio
 import requests
 import random
 
-# Needed to generate names for each user
-animals = ["Cat", "Dog", "Elephant", "Serval", "Ocelot", "Giraffe", "Bear", "Panda", "Bird", "Lizard", "Skink", "Fish", "Shark", "Dolphin", "Muskrat", "Ferret", "Sheep"]
-adjectives = ["Enjoyable", "Astonishing", "Super", "Amusing", "Large", "Fancy", "Kind", "Delightful", "Eager", "Bright", "Amiable", "Generous", "Playful", "Disgusting"]
-takenNames = set()
 usernameDict = {}
 
 app = flask.Flask(__name__)
@@ -123,21 +119,32 @@ def new_message(data):
         retObj["message"] = getBotResponse(messageContents)
         retObj["isBot"] = True
         retObj["username"] = "Meerkat Bot"
+        retObj["image"] = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/68083/meerkat-face-clipart-xl.png"
     # If it's a user, either call their username from the dictionary above or create a username for them.
     else:
+        splitMessage = messageContents.split()
+        hasImage = False
+        hasLink = False
+        linkText = None
+        imageLink = None
+        
+        for word in splitMessage:
+            if "https://" in word or "http://" in word:
+                if word[-3:] == "jpg" or word[-3:] == "png" or word[-3:] == "gif":
+                    hasImage = True
+                    imageLink = word
+                else:
+                    hasLink = True
+                    linkText = word
+
         retObj["message"] = messageContents
         retObj["isBot"] = False
-        # If they have chatted before, just fetch their username.
-        if (flask.request.sid in usernameDict):
-            retObj["username"] = usernameDict[flask.request.sid]
-        else:
-            # If they have not chatted before, then generate a username for them. Add their name to the set to make sure there are no repeats.
-            newUser = random.choice(adjectives) + " " + random.choice(animals) + " " + str(random.randint(1, 100))
-            while newUser in takenNames:
-                newUser = random.choice(adjectives) + " " + random.choice(animals) + " " + str(random.randint(1, 100))
-            takenNames.add(newUser)
-            usernameDict[flask.request.sid] = newUser
-            retObj["username"] = usernameDict[flask.request.sid]
+        retObj["username"] = usernameDict[flask.request.sid]["username"]
+        retObj["image"] = usernameDict[flask.request.sid]["image"]
+        retObj["hasImage"] = hasImage
+        retObj["hasLink"] = hasLink
+        retObj["linkText"] = linkText
+        retObj["imageLink"] = imageLink
     
     # Write to the database the contents of the message, the username, and whether or not it's a bot message.
     db.session.add(models.Messages(retObj['message'], retObj['username'], retObj['isBot']));

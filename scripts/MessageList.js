@@ -12,8 +12,20 @@ export function MessageList() {
     function getNewMessages() {
         React.useEffect(() => {
             Socket.on('message recieved', (data) => {
-                console.log("Received Message!: " + data['message']);
-                testMessage = <Message image={data["image"]} key={messageList.length + 1} username={data['username']} message={data['message']} botStatus={data['isBot'] ? "botMessage" : "humanMessage"} />;
+                // console.log("Received Message!: " + data['message']);
+                testMessage = <Message 
+                                image={data["image"]} 
+                                key={messageList.length + 1} 
+                                username={data['username']} 
+                                message={data['message']} 
+                                botStatus={data['isBot'] ? "botMessage" : "humanMessage"}
+                                hasImage = {data["hasImage"]}
+                                hasLink = {data["hasLink"]}
+                                imageLink = {data["imageLink"]}
+                                linkText = {data["linkText"]}
+                              />;
+                console.log(data["hasLink"])
+                console.log(data["linkText"])
                 setMessageList(messageList => [...messageList, testMessage])
             })
             

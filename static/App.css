@@ -81,7 +81,7 @@ h1 {
     align-items: center;
 }
 
-.humanMessage img {
+.profilePicture {
     float: left;
     border-radius: 50px;
     max-height: 42px;
@@ -104,7 +104,7 @@ h1 {
     align-items: center;
 }
 
-.botMessage img {
+.profilePicture {
     float: left;
     border-radius: 50px;
     max-height: 42px;
