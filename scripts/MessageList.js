@@ -13,6 +13,18 @@ export function MessageList() {
         React.useEffect(() => {
             Socket.on('message recieved', (data) => {
                 console.log(data);
+                console.log(data["profilePicture"])
+                console.log(data["profilePicture"])
+                console.log(data["profilePicture"])
+                console.log(data["profilePicture"])
+                console.log(data["profilePicture"])
+                console.log(data["profilePicture"])
+                console.log(data["profilePicture"])
+                console.log(data["profilePicture"])
+                console.log(data["profilePicture"])
+                console.log(data["profilePicture"])
+                console.log(data["profilePicture"])
+
                 testMessage = <Message 
                                 image={data["profilePicture"]} 
                                 key={messageList.length + 1} 
@@ -22,7 +34,7 @@ export function MessageList() {
                                 hasImage = {data["hasImage"]}
                                 hasLink = {data["hasLink"]}
                                 imageLink = {data["imageLink"]}
-                                linkText = {data["linkText"]}
+                                linkText = {data["hyperlink"]}
                               />;
                 setMessageList(messageList => [...messageList, testMessage])
             })
@@ -40,7 +52,7 @@ export function MessageList() {
                                             hasImage={data[i].hasImage}
                                             hasLink={data[i].hasLink}
                                             imageLink={data[i].imageLink}
-                                            linkText={data[i].linkText}
+                                            linkText={data[i].hyperlink}
                                           />;
                         setMessageList(messageList => [...messageList, currMessage])
                     }

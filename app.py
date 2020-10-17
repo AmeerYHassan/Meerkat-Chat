@@ -128,7 +128,11 @@ def new_message(data):
         retObj["message"] = getBotResponse(messageContents)
         retObj["isBot"] = True
         retObj["username"] = "Meerkat Bot"
-        retObj["image"] = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/68083/meerkat-face-clipart-xl.png"
+        retObj["profilePicture"] = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/68083/meerkat-face-clipart-xl.png"
+        retObj["hasImage"] = False
+        retObj["hasLink"] = False
+        retObj["hyperlink"] = None
+        retObj["imageLink"] = None
     # If it's a user, either call their username from the dictionary above or create a username for them.
     else:
         splitMessage = messageContents.split()
@@ -149,7 +153,7 @@ def new_message(data):
         retObj["message"] = messageContents
         retObj["isBot"] = False
         retObj["username"] = usernameDict[flask.request.sid]["username"]
-        retObj["image"] = usernameDict[flask.request.sid]["image"]
+        retObj["profilePicture"] = usernameDict[flask.request.sid]["profilePicture"]
         retObj["hasImage"] = hasImage
         retObj["hasLink"] = hasLink
         retObj["hyperlink"] = hyperlink
@@ -160,7 +164,7 @@ def new_message(data):
         retObj['message'], \
         retObj['username'], \
         retObj['isBot'], \
-        retObj['image'], \
+        retObj['profilePicture'], \
         retObj['hasImage'], \
         retObj['hasLink'], \
         retObj["imageLink"], \
@@ -175,10 +179,21 @@ def new_message(data):
 @socketio.on('user login')
 def user_login(data):
     retObj = {}
-    retObj["image"] = data["image"]
+    retObj["profilePicture"] = data["image"]
     retObj["username"] = "Meerkat Bot"
     retObj["message"] = data["name"] + " has joined the chat!"
     retObj["isBot"] = True
+    
+    db.session.add(models.Messages(\
+    retObj['message'], \
+    retObj['username'], \
+    retObj['isBot'], \
+    retObj['profilePicture'], \
+    False, \
+    False, \
+    None, \
+    None));
+    db.session.commit()
     
     socketio.emit('message recieved', retObj)
     socketio.emit('unlock chat', {})
