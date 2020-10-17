@@ -34,7 +34,11 @@ When creating the messages and displaying on the client, I noticed that spacing 
 ### Messages sent to all clients when a new user joins
 When a new user joined, the chat app would send all of the message history to all of the connected users. This would lead to the chat being cluttered with duplicates of the chat in the chat box. This was resolved by making a special signal for when a user first joins. When a user joins, they are sent all the messages and the client checks to make sure that the user does not have any messages before rendering all of them out.
 
-## Milestone 2 Technical Issues
+## Milestone 2 Current Technical Issues
+### Authentication chat lock
+Before you authenticate yourself, the input is greyed out and you are not able to push the button. If anyone else in the server authenticates themselves though, it unlocks the chat and button. **Although it unlocks, unauthorized users are still not able to send messages**. This is more of a style issue than an integral one since unauthorized users can't send messages regardless, but it would be nice to figure out how to keep the chat locked.
+
+## Milestone 2 Solved Technical Issues
 ### Message spacing with inline images
 When trying to get inline images to work, it would overlap on other message divs and cloud up the whole entire message list. Images would cover other messages and a lot of content would be missing. Diagnosing why this would happen proved to be very difficult, but it was because of the css styling and spacing. This made me take a deep dive into a few different ways of spacing in CSS, and eventually settled on the CSS grid to make the message components look elegant with a username, profile picture, and any potential inline images.
 
