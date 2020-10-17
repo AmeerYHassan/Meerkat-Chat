@@ -121,3 +121,11 @@ h1 {
     object-fit: cover;
     height: 250px;
 }
+
+.sidePanel p {
+    text-align: center;
+}
+
+#googleButton {
+    width: 100%;
+}

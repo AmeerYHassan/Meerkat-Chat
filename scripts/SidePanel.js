@@ -35,12 +35,16 @@ export function SidePanel() {
     return (
         <div className="sidePanel">
             <h1> Meerkat Chat! </h1>
+            <hr />
+            <p> In order to chat, please login with your google account! </p>
+            <hr />
               <GoogleLogin
                 clientId={clientID}
                 buttonText="Login"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'}
+                id="googleButton"
               />
             <hr />
             <p> User Count: {userCount} </p>

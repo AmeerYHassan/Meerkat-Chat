@@ -195,7 +195,7 @@ def user_login(data):
     db.session.commit()
     
     socketio.emit('message recieved', retObj)
-    socketio.emit('unlock chat', {})
+    socketio.emit('unlock chat', {}, room=flask.request.sid)
     
     retObj["username"] = data["name"]
     retObj["isBot"] = False
@@ -209,5 +209,6 @@ def index():
 if __name__ == '__main__':
     app.run(
         host=os.getenv('IP', '0.0.0.0'),
-        port=int(os.getenv('PORT', 8080))
+        port=int(os.getenv('PORT', 8080)),
+        debug=True
     )
