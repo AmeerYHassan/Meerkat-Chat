@@ -34,6 +34,20 @@ When creating the messages and displaying on the client, I noticed that spacing 
 ### Messages sent to all clients when a new user joins
 When a new user joined, the chat app would send all of the message history to all of the connected users. This would lead to the chat being cluttered with duplicates of the chat in the chat box. This was resolved by making a special signal for when a user first joins. When a user joins, they are sent all the messages and the client checks to make sure that the user does not have any messages before rendering all of them out.
 
+## Milestone 2 Technical Issues
+### Message spacing with inline images
+When trying to get inline images to work, it would overlap on other message divs and cloud up the whole entire message list. Images would cover other messages and a lot of content would be missing. Diagnosing why this would happen proved to be very difficult, but it was because of the css styling and spacing. This made me take a deep dive into a few different ways of spacing in CSS, and eventually settled on the CSS grid to make the message components look elegant with a username, profile picture, and any potential inline images.
+
+### Database appendage problems.
+Initially, I thought it would be nice to just add columns to the existing database to store the new information that comes with the client authorization. This was something that I never figured out how to do elegantly. Sadly, in the end, I had to purge the entire database and recreate it from the beginning to hold all the information that I needed to store in order to render the website. The only things in my database were just test messages so nothing of value was really lost, but if this was a genuine chat room, deleting the whole entire database would upset a lot of users of the chat app.
+
+## Milestone 2 future features
+### More security with authorization
+As it stands, the input and the send button are both disabled when you load into the page. If anyone is savy with HTML and the developer tools of chrome, they could go into the HTML and just undisable them. This is not very secure, as it just takes some mediocre knowledge of basic web development to bypass verification. Given more time, I would try and find a more secure way to disable the chat.
+
+### Complete change of the site's style
+The website as it is now is pretty pleasant to look at, but it is very dependent on the fact that the user is using a modern 1920x1080 monitor or larger. On smaller screens, this website is completely unusable. Given more time, I'd want to spend a lot of time on the css and just make it so things are mobile/small-screen responsive.
+
 ## How to deploy
 To run your own local version of this chat app:
 * Run `git clone https://github.com/NJIT-CS490/project2-m1-ayh7`, and `cd` into your directory.
