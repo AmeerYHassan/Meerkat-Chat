@@ -143,7 +143,7 @@ def new_message(data):
         
         for word in splitMessage:
             if "https://" in word or "http://" in word:
-                if word[-3:] == "jpg" or word[-3:] == "png" or word[-3:] == "gif":
+                if word[-3:] == "jpg" or word[-3:] == "png" or word[-3:] == "gif" or word[-4:] =="jpeg":
                     hasImage = True
                     imageLink = word
                 else:
