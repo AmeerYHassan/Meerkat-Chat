@@ -85,6 +85,16 @@ To properly configure the database settings to work with our program, run the fo
     - `wq`
 * Restart the database by running `sudo service postgresql restart`
 
+In order to have oAuth working, you must create a valid developer account with google.
+* Go to google's [developer's page.](https://console.developers.google.com/)
+* Create a new project and give it an appropriate name.
+* Click credentials on the side, click create credentials, and click `OAuth Client ID`.
+* Select web application for application type.
+* Put in your site's URL under "authorized javascript origins"
+* Go to the authorized domains list and add the TLD for your website host.
+* Go back to the developers website and get the client ID.
+* On line 9 of `SidePanel.js`, change the client id to your client id.
+
 To run the app, type `npm run watch` in a terminal, and in a seperate terminal type `python app.py`.
 
 To deploy to heroku:

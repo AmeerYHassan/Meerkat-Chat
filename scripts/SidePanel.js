@@ -6,7 +6,8 @@ import { GoogleLogin } from 'react-google-login';
 
 export function SidePanel() {
     const [userCount, setUserCount] = useState(0);
-
+    let clientID = "881732433179-jr7i2r1pnm1ks26cq6o59elir11g74s6.apps.googleusercontent.com";
+    
     function getNewCount() {
         React.useEffect(() => {
             Socket.on('user count change', (data) => {
@@ -35,7 +36,7 @@ export function SidePanel() {
         <div className="sidePanel">
             <h1> Meerkat Chat! </h1>
               <GoogleLogin
-                clientId="881732433179-jr7i2r1pnm1ks26cq6o59elir11g74s6.apps.googleusercontent.com"
+                clientId={clientID}
                 buttonText="Login"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
