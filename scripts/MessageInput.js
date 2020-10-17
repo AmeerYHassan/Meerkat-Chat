@@ -37,7 +37,9 @@ export function MessageInput() {
     unlockChat();
     return (
         <div>
-            <input disabled={chatLock} onSubmit={handleSubmit} id="messageBox" placeholder="Enter your message here..." className="messageInput" type="text" />
+            <form onSubmit={handleSubmit}>
+                <input disabled={chatLock} id="messageBox" placeholder="Enter your message here..." className="messageInput" type="text" />
+            </form>
             <button disabled={chatLock} className="submitButton" onClick={handleSubmit}>Send Message</button>
         </div>
     )
