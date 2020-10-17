@@ -12,19 +12,6 @@ export function MessageList() {
     function getNewMessages() {
         React.useEffect(() => {
             Socket.on('message recieved', (data) => {
-                console.log(data);
-                console.log(data["profilePicture"])
-                console.log(data["profilePicture"])
-                console.log(data["profilePicture"])
-                console.log(data["profilePicture"])
-                console.log(data["profilePicture"])
-                console.log(data["profilePicture"])
-                console.log(data["profilePicture"])
-                console.log(data["profilePicture"])
-                console.log(data["profilePicture"])
-                console.log(data["profilePicture"])
-                console.log(data["profilePicture"])
-
                 testMessage = <Message 
                                 image={data["profilePicture"]} 
                                 key={messageList.length + 1} 
@@ -42,7 +29,6 @@ export function MessageList() {
             Socket.on('message dump', (data) => {
                 if (messageList.length == 0){
                     for (let i=0; i<data.length; i++){
-                        console.log(data[i])
                         let currMessage = <Message 
                                             image={data[i].profilePicture}
                                             key={i} 

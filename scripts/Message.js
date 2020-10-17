@@ -3,16 +3,12 @@ import React from 'react'
 import "../static/App.css"
 
 export function Message(props) {
-    console.log("NEW MESSAGE")
-    console.log(props)
-    console.log("NEW MESSAGE")
     let noImageOrLink = true
     
     if (props.hasImage || props.hasLink){
         noImageOrLink = false;
     }
     
-    console.log(props.linkText);
     return (
         <div className={props.botStatus}>
             <img src={props.image} className="profilePicture"></img>

@@ -174,7 +174,6 @@ def new_message(data):
     
     # Emit the message to socket.io
     socketio.emit('message recieved', retObj)
-    print(retObj)
 
 @socketio.on('user login')
 def user_login(data):
