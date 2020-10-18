@@ -19,11 +19,12 @@ socketio = flask_socketio.SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 
 # Load environment variables
-dotenv_path = join(dirname(__file__), 'sql.env')
+dotenv_path = join(dirname(__file__), 'api_keys.env')
 load_dotenv(dotenv_path)
 
 # Set up authentication for psql database
 database_uri = os.environ.get('DATABASE_URL')
+giphy_key = os.environ.get('GIPHY_KEY')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 
@@ -36,9 +37,8 @@ db.create_all()
 db.session.commit()
 
 # Method to get responses from the chat bot.
-def getBotResponse(message):
+def getBotResponse(returnObject, message):
     splitMessage = message.split()
-    messageResponse = ""
     # If the first part of the message has funtranslate, take the rest of the message and send an API call to the funtranslate API
     if "funtranslate" in splitMessage[0]:
         translateString = " ".join(splitMessage[1:])
@@ -47,33 +47,42 @@ def getBotResponse(message):
             URLStr += translateString.replace(" ", "%20")
             response = requests.get(URLStr)
             if (response.status_code == 200):
-                messageResponse = response.json()["contents"]["translated"]
+                returnObject["message"] = response.json()["contents"]["translated"]
             else:
-                messageResponse = "Uh oh! Try again in a few, I can't seem to translate that right now."
+                returnObject["message"] = "Uh oh! Try again in a few, I can't seem to translate that right now."
         else:
-            messageResponse = "Sorry, I only can translate sentences that just contain letters! Try again"
+            returnObject["message"] = "Sorry, I only can translate sentences that just contain letters! Try again"
     # If the first part specifies catfact, get a random cat fact from the API and return to the server
     elif "catfact" in splitMessage[0]:
         response = requests.get("https://catfact.ninja/fact")
         if (response.status_code == 200):
-            messageResponse = response.json()["fact"]
+            returnObject["message"] = response.json()["fact"]
         else:
-            messageResponse = "Uh oh! Try again in a few, I can't seem to get a cat fact right now."
+            returnObject["message"] = "Uh oh! Try again in a few, I can't seem to get a cat fact right now."
+    # Return a gif if giphy is in the command.
+    elif "giphy" in splitMessage[0]:
+        requestUrl = "https://api.giphy.com/v1/gifs/search?api_key=" + giphy_key + "&q="+ splitMessage[1] + "&limit=10&offset=0&rating=g&lang=en"
+        response = requests.get(requestUrl)
+        if (response.status_code == 200):
+            returnObject["hasImage"] = True
+            returnObject["imageLink"] = random.choice(response.json()["data"])["images"]["original"]["url"]
+        else:
+            returnObject["message"] = "Uh oh! Try again in a few, I can't seem to get a gif right now."
     # Return the current time
     elif "time" in splitMessage[0]:
-        messageResponse = "The current time is " + datetime.now().strftime("%H:%M:%S")
+        returnObject["message"] = "The current time is " + datetime.now().strftime("%H:%M:%S")
     # Return the about section of the bot
     elif "about" in splitMessage[0]:
-        messageResponse = "Hi, I'm meerkat, and I'm just a small utility for this chat room! Use !!help to see what I can do!"
+        returnObject["message"] = "Hi, I'm meerkat, and I'm just a small utility for this chat room! Use !!help to see what I can do!"
     # Return the help section of the bot
     elif "help" in splitMessage[0]:
-        messageResponse = "!!funtranslate <message> to translate a message to yoda speech, !!time to get the current time, !!catfact to get a random cat fact, or !!about to learn a bit more about me"
+        returnObject["message"] = "!!funtranslate <message> to translate a message to yoda speech, !!time to get the current time, !!catfact to get a random cat fact, or !!about to learn a bit more about me"
     # If the command is nothing else, then urge the user to use the !!help command to see proper syntax.
     else:
-        messageResponse = "Sorry, I don't know that command. Use !!help to see what I can do!"
+        returnObject["message"] = "Sorry, I don't know that command. Use !!help to see what I can do!"
     
     # Return the final message
-    return messageResponse
+    return returnObject
 
 # Sends all of the messages one by one to the client.
 def emit_all_messages():
@@ -125,14 +134,17 @@ def new_message(data):
     retObj = {}
     # If it's a bot, call the bot response method and set the object to specify that it's a bot.
     if (messageContents[0:2] == "!!"):
-        retObj["message"] = getBotResponse(messageContents)
-        retObj["isBot"] = True
-        retObj["username"] = "Meerkat Bot"
-        retObj["profilePicture"] = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/68083/meerkat-face-clipart-xl.png"
-        retObj["hasImage"] = False
-        retObj["hasLink"] = False
-        retObj["hyperlink"] = None
-        retObj["imageLink"] = None
+        retObj = {
+            "message": None,
+            "isBot": True,
+            "username": "Meerkat Bot",
+            "profilePicture": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/68083/meerkat-face-clipart-xl.png",
+            "hasImage": False,
+            "hasLink": False,
+            "hyperlink": None,
+            "imageLink": None
+        }
+        getBotResponse(retObj, messageContents)
     # If it's a user, either call their username from the dictionary above or create a username for them.
     else:
         splitMessage = messageContents.split()
@@ -143,7 +155,7 @@ def new_message(data):
         
         for word in splitMessage:
             if "https://" in word or "http://" in word:
-                if word[-3:] == "jpg" or word[-3:] == "png" or word[-3:] == "gif" or word[-4:] =="jpeg":
+                if word[-3:] == "jpg" or word[-3:] == "png" or word[-3:] == "gif" or word[-4:] == "jpeg":
                     hasImage = True
                     imageLink = word
                 else:
