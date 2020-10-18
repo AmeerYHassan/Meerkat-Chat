@@ -1,36 +1,40 @@
 import React, { useState } from 'react'
 
 import "../static/App.css"
+import { UserObject } from './UserObject.js';
 import { Socket } from './Socket';
 import { GoogleLogin } from 'react-google-login';
 
 export function SidePanel() {
-    const [userCount, setUserCount] = useState(0);
+    const [userList, setUserList] = useState([]);
     let clientID = "881732433179-jr7i2r1pnm1ks26cq6o59elir11g74s6.apps.googleusercontent.com";
     
-    function getNewCount() {
+    function getUserList() {
         React.useEffect(() => {
-            Socket.on('user count change', (data) => {
-                setUserCount(userCount + data["changeBy"])
+            Socket.on('user update', (data) => {
+                console.log(data)
+                let updatedList = [];
+                for (let i=0; i<data.length; i++){
+                    let currUser = <UserObject key={i} profilePicture={data[i].profilePicture} username={data[i].username} />;
+                    updatedList.push(currUser)
+                }
+                setUserList(updatedList);
             })
-            
             return () => {
-              Socket.off("user count change");
+              Socket.off("user update");
             };
         });
     }
     
-    getNewCount()
-    
     const responseGoogle = (response) => {
-        console.log(response);
-        console.log(response.profileObj.googleId)
         Socket.emit('user login', {
             'id': response.profileObj.googleId,
             'name': response.profileObj.name,
             'image': response.profileObj.imageUrl
         });
     }
+    
+    getUserList();
     
     return (
         <div className="sidePanel">
@@ -47,7 +51,8 @@ export function SidePanel() {
                 id="googleButton"
               />
             <hr />
-            <p> User Count: {userCount} </p>
+            <p>Users Online: {userList.length} </p>
+            {userList}
         </div>
     )
 }

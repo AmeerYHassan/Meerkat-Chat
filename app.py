@@ -119,22 +119,23 @@ def emit_current_users():
         currObject = {}
         currObject["username"] = usernameDict[user]["username"]
         currObject["profilePicture"] = usernameDict[user]["profilePicture"]
-        userObjects.append(userObjects)
-    
+        userObjects.append(currObject)
+
     socketio.emit('user update', userObjects)
         
 # On connect, tell the client to increase the user count by one and emit all the messages.
 @socketio.on('connect')
 def on_connect():
-    socketio.emit('user count change', { "changeBy": +1 })
     emit_all_messages()
+    emit_current_users()
     print("A user has connected!")
 
 # On disconnect, tell the client to decrease the user count by one.
 @socketio.on('disconnect')
 def on_disconnect():
-    socketio.emit('user count change', { "changeBy": -1 })
-    del usernameDict[flask.request.sid]
+    if flask.request.sid in usernameDict:
+        del usernameDict[flask.request.sid]
+    emit_current_users()
     print("A user has disconnected!")
 
 # When a new message is recieved...

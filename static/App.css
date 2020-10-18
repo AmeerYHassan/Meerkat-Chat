@@ -125,6 +125,26 @@ h1 {
     text-align: center;
 }
 
+.userObject img {
+    height: 25px;
+    border-radius: 90px;
+    border: 1px solid black;
+}
+
+.userObject p{
+    display: inline-block;
+}
+
+.userObject {
+    display: flex;
+    padding: 3px;
+    margin: 2px;
+    align-items: center;
+    border: 2px solid rgb(123, 147, 156);
+    border-radius: 20px;
+    text-align: center;
+}
+
 #googleButton {
     width: 100%;
 }
