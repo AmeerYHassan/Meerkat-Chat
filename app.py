@@ -113,6 +113,16 @@ def emit_all_messages():
     # Send each message using socketio to the client.
     socketio.emit('message dump', messageObjects)
 
+def emit_current_users():
+    userObjects = []
+    for user in usernameDict:
+        currObject = {}
+        currObject["username"] = usernameDict[user]["username"]
+        currObject["profilePicture"] = usernameDict[user]["profilePicture"]
+        userObjects.append(userObjects)
+    
+    socketio.emit('user update', userObjects)
+        
 # On connect, tell the client to increase the user count by one and emit all the messages.
 @socketio.on('connect')
 def on_connect():
@@ -124,6 +134,7 @@ def on_connect():
 @socketio.on('disconnect')
 def on_disconnect():
     socketio.emit('user count change', { "changeBy": -1 })
+    del usernameDict[flask.request.sid]
     print("A user has disconnected!")
 
 # When a new message is recieved...
@@ -212,6 +223,8 @@ def user_login(data):
     retObj["username"] = data["name"]
     retObj["isBot"] = False
     usernameDict[flask.request.sid] = retObj
+    
+    emit_current_users()
 
 # Default root directory of the website.
 @app.route('/')
