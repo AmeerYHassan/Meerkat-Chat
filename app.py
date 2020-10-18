@@ -76,7 +76,7 @@ def getBotResponse(returnObject, message):
         returnObject["message"] = "Hi, I'm meerkat, and I'm just a small utility for this chat room! Use !!help to see what I can do!"
     # Return the help section of the bot
     elif "help" in splitMessage[0]:
-        returnObject["message"] = "!!funtranslate <message> to translate a message to yoda speech, !!time to get the current time, !!catfact to get a random cat fact, , !!giphy <query> to retrieve a gif, or !!about to learn a bit more about me"
+        returnObject["message"] = "!!funtranslate <message> to translate a message to yoda speech, !!time to get the current time, !!catfact to get a random cat fact, !!giphy <query> to retrieve a gif, or !!about to learn a bit more about me"
     # If the command is nothing else, then urge the user to use the !!help command to see proper syntax.
     else:
         returnObject["message"] = "Sorry, I don't know that command. Use !!help to see what I can do!"
