@@ -78,9 +78,15 @@ To run your own local version of this chat app:
     - You are going to be creating a user here, keep in mind the username and password!
         - `create user [USERNAME HERE] superuser password '[PASSWORD HERE]';`
         - `\q`
-
-Change your directory to the project directory and create a file called `sql.env`. In this file, add the following line, be sure to put your own username and password!\
-`DATABASE_URL=postgresql://[USERNAME HERE]:[PASSWORD HERE]@localhost/postgres`
+* To set up the environment variables
+    - Go to the [giphy developer website.](https://developers.giphy.com/)
+    - Create an account, and click the create app button
+    - Choose the api option rather than the SDK option.
+    - Give your app a name and description
+    - Generate an API key, take note of the key.
+    - Change your directory to the project directory and create a file called `api_keys.env`. In this file, add the following lines, be sure to put your own username and password for the database!\
+        - `DATABASE_URL=postgresql://[USERNAME HERE]:[PASSWORD HERE]@localhost/postgres`
+        - `GIPHY_KEY=<Your-Giphy-Key-Here`
 
 To properly configure the database settings to work with our program, run the following.
 * `sudo vim /var/lib/pgsql9/data/pg_hba.conf`
