@@ -61,7 +61,8 @@ def getBotResponse(returnObject, message):
             returnObject["message"] = "Uh oh! Try again in a few, I can't seem to get a cat fact right now."
     # Return a gif if giphy is in the command.
     elif "giphy" in splitMessage[0]:
-        requestUrl = "https://api.giphy.com/v1/gifs/search?api_key=" + giphy_key + "&q="+ splitMessage[1] + "&limit=10&offset=0&rating=g&lang=en"
+        query = "%20".join(splitMessage[1:])
+        requestUrl = "https://api.giphy.com/v1/gifs/search?api_key=" + giphy_key + "&q="+ query + "&limit=10&offset=0&rating=g&lang=en"
         response = requests.get(requestUrl)
         if (response.status_code == 200):
             returnObject["hasImage"] = True

@@ -34,6 +34,7 @@ h1 {
     width: 10%;
     height: 95%;
     margin: 5px;
+    text-align: center;
 }
 
 .messageList {
@@ -41,7 +42,6 @@ h1 {
     position: fixed;
     width: 85%;
     overflow-y: scroll;
-    border: 1px solid black;
     display: flex;
     flex-direction: column-reverse;
 }
