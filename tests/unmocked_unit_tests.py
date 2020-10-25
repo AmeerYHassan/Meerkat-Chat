@@ -1,3 +1,4 @@
+from datetime import datetime
 import unittest
 import sys
 
@@ -9,32 +10,67 @@ class ChatbotTestCase(unittest.TestCase):
         self.success_test_params = [
             {
                 "KEY_INPUT": "!!help",
-                "KEY_EXPECTED": {
-                    "KEY_IS_BOT": True,
-                    "KEY_BOT_COMMAND": "help",
-                    "KEY_MESSAGE": "",
-                }
+                "KEY_EXPECTED": "!!funtranslate <message> to translate a message to yoda speech, !!time to get the current time, "\
+                                "!!catfact to get a random cat fact, !!giphy <query> to retrieve a gif, "\
+                                "or !!about to learn a bit more about me"
             },
+            {
+                "KEY_INPUT": "!!about",
+                "KEY_EXPECTED": "Hi, I'm meerkat, and I'm just a small utility for this chat room! Use !!help to see what I can do!"
+            },
+            {
+                "KEY_INPUT": "!!AAAAAA",
+                "KEY_EXPECTED": "Sorry, I don't know that command. Use !!help to see what I can do!"
+            },
+            {
+                "KEY_INPUT": "!about",
+                "KEY_EXPECTED": "Hi, I'm meerkat, and I'm just a small utility for this chat room! Use !!help to see what I can do!"
+            },
+            {
+                "KEY_INPUT": "!!time",
+                "KEY_EXPECTED": "The current time is " + datetime.now().strftime("%H:%M:%S")
+            },
+            {
+                "KEY_INPUT": "!!funtranslate hello this is a test to trying to get output for me to make a test case",
+                "KEY_EXPECTED": "A test to trying to get output for me to make a test case,  Force be with you this is"
+            },
+            {
+                "KEY_INPUT": "!!funtranslate hello, this is a test to trying to get output for me to make a test case",
+                "KEY_EXPECTED": "Sorry, I only can translate sentences that just contain letters! Try again"
+            }
         ]
         
         self.failure_test_params = [
-            # TODO HW13
+            {
+                "KEY_INPUT": "!!about",
+                "KEY_EXPECTED": "!!funtranslate <message> to translate a message to yoda speech, !!time to get the current time, "\
+                                "!!catfact to get a random cat fact, !!giphy <query> to retrieve a gif, "\
+                                "or !!about to learn a bit more about me"
+            },
+            {
+                "KEY_INPUT": "!!help",
+                "KEY_EXPECTED": "Hi, I'm meerkat, and I'm just a small utility for this chat room! Use !!help to see what I can do!"
+            },
+            {
+                "KEY_INPUT": "!!abou",
+                "KEY_EXPECTED": "Hi, I'm meerkat, and I'm just a small utility for this chat room! Use !!help to see what I can do!"
+            },
         ]
 
 
-    def bot_response_success(self):
+    def test_bot_response_success(self):
         for test in self.success_test_params:
-            response = app.getBotResponse(test["KEY_INPUT"])
+            response = app.getBotResponse({}, test["KEY_INPUT"])["message"]
             expected = test["KEY_EXPECTED"]
-            
-            # self.assertEqual(response[KEY_IS_BOT], expected[KEY_IS_BOT])
+
+            self.assertEqual(response, expected)
             
     def test_parse_message_failure(self):
         for test in self.failure_test_params:
-            response = app.getBotResponse(test["KEY_INPUT"])
+            response = app.getBotResponse({}, test["KEY_INPUT"])["message"]
             expected = test["KEY_EXPECTED"]
             
-            # TODO add assertNotEqual cases here instead
+            self.assertNotEqual(response, expected)
 
 if __name__ == '__main__':
     unittest.main()

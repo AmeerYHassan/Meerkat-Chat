@@ -2,7 +2,6 @@
 from os.path import join, dirname
 from dotenv import load_dotenv
 from datetime import datetime
-import models 
 import os
 import flask
 import flask_sqlalchemy
@@ -13,6 +12,7 @@ import random
 usernameDict = {}
 
 app = flask.Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Establish socket connection
 socketio = flask_socketio.SocketIO(app)
@@ -36,6 +36,7 @@ db.app = app
 db.create_all()
 db.session.commit()
 
+import models 
 # Method to get responses from the chat bot.
 def getBotResponse(returnObject, message):
     splitMessage = message.split()
@@ -202,6 +203,7 @@ def new_message(data):
 
 @socketio.on('user login')
 def user_login(data):
+    print(data)
     retObj = {}
     retObj["profilePicture"] = data["image"]
     retObj["username"] = "Meerkat Bot"
