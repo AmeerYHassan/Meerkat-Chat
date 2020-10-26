@@ -6,7 +6,8 @@ from datetime import datetime
 import unittest
 import sys
 
-sys.path.append("..")
+from os.path import dirname, join
+sys.path.insert(1, join(dirname(__file__), '../'))
 import app
 
 class ChatbotTestCase(unittest.TestCase):
