@@ -10,7 +10,6 @@ import sys
 
 from os.path import dirname, join
 sys.path.insert(1, join(dirname(__file__), '../'))
-
 import app
 
 class MockedResponse:
