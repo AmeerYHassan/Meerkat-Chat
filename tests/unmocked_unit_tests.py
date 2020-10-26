@@ -31,10 +31,6 @@ class ChatbotTestCase(unittest.TestCase):
                 "KEY_EXPECTED": "The current time is " + datetime.now().strftime("%H:%M:%S")
             },
             {
-                "KEY_INPUT": "!!funtranslate hello this is a test to trying to get output for me to make a test case",
-                "KEY_EXPECTED": "A test to trying to get output for me to make a test case,  Force be with you this is"
-            },
-            {
                 "KEY_INPUT": "!!funtranslate hello, this is a test to trying to get output for me to make a test case",
                 "KEY_EXPECTED": "Sorry, I only can translate sentences that just contain letters! Try again"
             }
@@ -52,25 +48,31 @@ class ChatbotTestCase(unittest.TestCase):
                 "KEY_EXPECTED": "Hi, I'm meerkat, and I'm just a small utility for this chat room! Use !!help to see what I can do!"
             },
             {
-                "KEY_INPUT": "!!abou",
+                "KEY_INPUT": "!!abot",
                 "KEY_EXPECTED": "Hi, I'm meerkat, and I'm just a small utility for this chat room! Use !!help to see what I can do!"
             },
+            {
+                "KEY_INPUT": "!!h",
+                "KEY_EXPECTED": "!!funtranslate <message> to translate a message to yoda speech, !!time to get the current time, "\
+                                "!!catfact to get a random cat fact, !!giphy <query> to retrieve a gif, "\
+                                "or !!about to learn a bit more about me"
+            }
         ]
 
 
     def test_bot_response_success(self):
         for test in self.success_test_params:
-            response = app.get_bot_response({}, test["KEY_INPUT"])["message"]
+            response = app.getBotResponse({}, test["KEY_INPUT"])["message"]
             expected = test["KEY_EXPECTED"]
 
             self.assertEqual(response, expected)
-            
+
     def test_parse_message_failure(self):
         for test in self.failure_test_params:
-            response = app.get_bot_response({}, test["KEY_INPUT"])["message"]
+            response = app.getBotResponse({}, test["KEY_INPUT"])["message"]
             expected = test["KEY_EXPECTED"]
             
             self.assertNotEqual(response, expected)
-
+            
 if __name__ == '__main__':
     unittest.main()

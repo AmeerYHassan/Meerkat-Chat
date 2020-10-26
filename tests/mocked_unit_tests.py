@@ -1,14 +1,16 @@
+from unittest import mock
 import unittest
 import sys
 
 sys.path.append("..")
 import app
 
+
 class ChatbotTestCase(unittest.TestCase):
     def setUp(self):
         self.success_test_params = [
             {
-                "KEY_INPUT": "!!help",
+                "KEY_INPUT": "!!catfact",
                 "KEY_EXPECTED": {
                     "KEY_IS_BOT": True,
                     "KEY_BOT_COMMAND": "help",
@@ -18,10 +20,16 @@ class ChatbotTestCase(unittest.TestCase):
         ]
         
         self.failure_test_params = [
-            # TODO HW13
+
         ]
 
-
+    @mock.patch('requests.get', return_value="Cats have four legs!")
+    def test_cat_facts_success(self):
+        for test in self.success_test_params:
+            response = app.getBotResponse({}, test["KEY_INPUT"])["message"]
+            expected = test["KEY_EXPECTED"]
+            self.assertEqual(response, expected)
+    """
     def bot_response_success(self):
         for test in self.success_test_params:
             response = app.getBotResponse(test["KEY_INPUT"])
@@ -35,6 +43,6 @@ class ChatbotTestCase(unittest.TestCase):
             expected = test["KEY_EXPECTED"]
             
             # TODO add assertNotEqual cases here instead
-
+    """
 if __name__ == '__main__':
     unittest.main()
