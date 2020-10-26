@@ -14,6 +14,10 @@ jobs:
       - run:
           command: python ./tests/unmocked_unit_tests.py
           name: Unmocked Tests
+  
+- run:
+    name: deploy-to-heroku
+    command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 
 workflows:
   main:
