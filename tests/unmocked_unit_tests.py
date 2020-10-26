@@ -2,7 +2,6 @@
 # C0114, C0116 disabled because docstrings are not needed to understand tests here.
 # E0401, C0413 state app is not being imported, but it is.
 
-
 from datetime import datetime
 import unittest
 import sys
