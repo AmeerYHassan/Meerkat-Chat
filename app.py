@@ -100,7 +100,7 @@ def getBotResponse(returnObject, message):
     elif "help" in splitMessage[0]:
         returnObject["message"] = \
             "!!funtranslate <message> to translate a message to yoda speech, "\
-            "!!time to get the current time, !!catfact to get a random cat fact,"\
+            "!!time to get the current time, !!catfact to get a random cat fact, "\
             "!!giphy <query> to retrieve a gif, or !!about to learn a bit more about me"\
     # If the command is nothing else, then urge the user to use the !!help
     # command to see proper syntax.
