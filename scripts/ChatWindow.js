@@ -1,19 +1,21 @@
-import React from 'react'
+import React from 'react';
 
-import "../static/App.css"
+import '../static/App.css';
 
-import { MessageList } from './MessageList.js';
-import { MessageInput } from './MessageInput.js';
+import MessageList from './MessageList';
+import MessageInput from './MessageInput';
 
-export function ChatWindow() {
-    return (
-        <div id="idChatWindow" className="chatWindow">
-            <div className="messageList">
-                <MessageList />
-            </div>
-            <div className="userInput">
-                <MessageInput />
-            </div>
-        </div>
-    )
+function ChatWindow() {
+  return (
+    <div id="idChatWindow" className="chatWindow">
+      <div className="messageList">
+        <MessageList />
+      </div>
+      <div className="userInput">
+        <MessageInput />
+      </div>
+    </div>
+  );
 }
+
+export default ChatWindow;

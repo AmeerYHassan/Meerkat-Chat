@@ -1,23 +1,33 @@
-import React from 'react'
+import React from 'react';
 
-import "../static/App.css"
+import '../static/App.css';
 
-export function Message(props) {
-    let noImageOrLink = true
-    
-    if (props.hasImage || props.hasLink){
-        noImageOrLink = false;
-    }
-    
-    return (
-        <div className={props.botStatus}>
-            <img src={props.image} className="profilePicture"></img>
-            <p>
-                <span className="message_user"> {props.username}</span>
-                : {noImageOrLink && props.message}
-            </p>
-            {props.hasLink && <a href={props.linkText}>{props.linkText}</a>}
-            {props.hasImage && <img className="displayImage" src={props.imageLink}></img>}
-        </div>
-    )
+function Message(props) {
+  const {
+    hasImage, hasLink, botStatus, image, username, message, linkText, imageLink,
+  } = props;
+  let noImageOrLink = true;
+
+  if (hasImage || hasLink) {
+    noImageOrLink = false;
+  }
+
+  return (
+    <div className={botStatus}>
+      <img alt="" src={image} className="profilePicture" />
+      <p>
+        <span className="message_user">
+          {' '}
+          {username}
+        </span>
+        :
+        {' '}
+        {noImageOrLink && message}
+      </p>
+      {hasLink && <a href={linkText}>{linkText}</a>}
+      {hasImage && <img alt="" className="displayImage" src={imageLink} />}
+    </div>
+  );
 }
+
+export default Message;

@@ -1,15 +1,17 @@
-import React from 'react'
+import React from 'react';
 
-import "../static/App.css"
+import '../static/App.css';
 
-import { ChatWindow } from './ChatWindow.js';
-import { SidePanel } from './SidePanel.js';
+import ChatWindow from './ChatWindow';
+import SidePanel from './SidePanel';
 
-export function Content() {
-    return (
-        <div className="container">
-            <SidePanel />
-            <ChatWindow />
-        </div>
-    )
+function Content() {
+  return (
+    <div className="container">
+      <SidePanel />
+      <ChatWindow />
+    </div>
+  );
 }
+
+export default Content;

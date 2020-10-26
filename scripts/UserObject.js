@@ -1,12 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-import "../static/App.css"
+import '../static/App.css';
 
-export function UserObject(props) {
-    return (
-        <div className="UserObject">
-            <img src={props.profilePicture} />
-            <p>{props.username}</p>
-        </div>
-    )
+function UserObject({ profilePicture, username }) {
+  return (
+    <div className="UserObject">
+      <img alt="" src={profilePicture} />
+      <p>{username}</p>
+    </div>
+  );
 }
+
+export default UserObject;
