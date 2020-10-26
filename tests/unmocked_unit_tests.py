@@ -60,14 +60,14 @@ class ChatbotTestCase(unittest.TestCase):
 
     def test_bot_response_success(self):
         for test in self.success_test_params:
-            response = app.getBotResponse({}, test["KEY_INPUT"])["message"]
+            response = app.get_bot_response({}, test["KEY_INPUT"])["message"]
             expected = test["KEY_EXPECTED"]
 
             self.assertEqual(response, expected)
             
     def test_parse_message_failure(self):
         for test in self.failure_test_params:
-            response = app.getBotResponse({}, test["KEY_INPUT"])["message"]
+            response = app.get_bot_response({}, test["KEY_INPUT"])["message"]
             expected = test["KEY_EXPECTED"]
             
             self.assertNotEqual(response, expected)
