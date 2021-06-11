@@ -1,7 +1,7 @@
 # The Meerkat Chat App
 ### By: Ameer Hassan
 ![meerkat_readme.png](static/meerkat_readme.png)\
-[View a live demo here!](https://arcane-ravine-60026.herokuapp.com/)
+[View a live demo here!](https://arcane-ravine-60026.herokuapp.com/) - **Please Note:** Due to the nature of hosting on Heroku, it may take a few refreshes and a few minutes for the website to properly load because the web server is loading up. This is only during the initial visit to the website!
 ## Description
 This project is a simple web app that is a public chatroom. It features a bot that can call various APIs to entertain the chatters, as well as provides some utility commands. This chat room has persistence via postgresql, so any chatter will have access to the message history. A list of technolgies used include:
 
